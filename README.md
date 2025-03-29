@@ -2,6 +2,10 @@
 ```bash
 docker-compose up --build -d
 ```
+
+## หน้าแรกเว็บไซต์คือ http://localhost/vouchers
+
+# Others
 ## Import volume
 ```bash
 docker volume create petty-cash-voucher_sql_data
