@@ -1,0 +1,11 @@
+.app-container {
+  display: flex;
+  
+  .content-area {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 20px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+}

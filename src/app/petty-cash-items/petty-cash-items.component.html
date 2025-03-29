@@ -1,0 +1,153 @@
+<div class="items-container">
+  <h2>รายการเบิกเงินสดย่อย</h2>
+
+  <div class="voucher-info" *ngIf="voucherInfo">
+    <div class="info-card">
+      <h3>ข้อมูลใบเบิก</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>เลขที่ใบเบิก:</label>
+          <span>{{ voucherInfo?.voucher?.voucherNo || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>บริษัท:</label>
+          <span>{{ voucherInfo?.company?.companyName || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>วันที่ขอเบิก:</label>
+          <span>{{ voucherInfo?.voucher?.requestDate ? (voucherInfo?.voucher?.requestDate | date:'dd/MM/yyyy') : 'N/A'
+            }}</span>
+        </div>
+        <div class="info-item">
+          <label>ผู้ขอเบิก:</label>
+          <span>{{ voucherInfo?.requestedBy?.firstName }} {{ voucherInfo?.requestedBy?.lastName }}</span>
+        </div>
+        <div class="info-item">
+          <label>สถานะ:</label>
+          <span [ngClass]="'status-' + (voucherInfo?.voucher?.status || '').toLowerCase()">
+            {{ voucherInfo?.voucher?.status || 'N/A' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <label>หมายเหตุ:</label>
+          <span>{{ voucherInfo?.voucher?.remarks || '-' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="existing-items" *ngIf="items.length > 0">
+    <h3>รายการที่บันทึกแล้ว</h3>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>รายการ</th>
+          <th>วันที่ใช้จ่าย</th>
+          <th>จำนวนเงิน</th>
+          <th>รหัสบัญชี</th>
+          <th>ศูนย์ต้นทุน</th>
+          <th>การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>{{ item.description }}</td>
+          <td>{{ item.expenseDate | date:'dd/MM/yyyy' }}</td>
+          <td class="amount">{{ item.amount | number:'1.2-2' }}</td>
+          <td>{{ item.glAccount || '-' }}</td>
+          <td>{{ item.costCenter || '-' }}</td>
+          <td class="actions">
+            <button class="btn-delete" *ngIf="item.itemId !== undefined && voucherInfo?.voucher?.status === 'DRAFT'"
+              (click)="onDeleteItem(item.itemId)">ลบ</button>
+            <button class="btn-delete" *ngIf="voucherInfo?.voucher?.status !== 'DRAFT'" disabled>ลบ</button>
+          </td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2" class="total-label">รวมทั้งสิ้น</td>
+          <td class="total-amount">{{ calculateTotal() | number:'1.2-2' }}</td>
+          <td colspan="3"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="message-section" *ngIf="voucherInfo?.voucher?.status !== 'DRAFT'">
+    <div class="message">
+      <p>ใบเบิกอยู่ในสถานะ {{voucherInfo?.voucher?.status}} ไม่สามารถเพิ่มหรือแก้ไขรายการได้</p>
+    </div>
+  </div>
+  
+
+  <div class="add-items-section" *ngIf="voucherInfo?.voucher?.status === 'DRAFT'">
+    <h3>เพิ่มรายการใหม่</h3>
+    <form [formGroup]="itemsForm" (ngSubmit)="onSaveItems()">
+      <div formArrayName="items">
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>รายการ</th>
+              <th>วันที่ใช้จ่าย</th>
+              <th>จำนวนเงิน</th>
+              <th>รหัสบัญชี</th>
+              <th>ศูนย์ต้นทุน</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itemGroup of itemsArray.controls; let i = index" [formGroupName]="i">
+              <td>
+                <input type="text" formControlName="description" placeholder="ระบุรายการ">
+                <div *ngIf="itemGroup.get('description')?.invalid && itemGroup.get('description')?.touched"
+                  class="error-message">
+                  จำเป็นต้องระบุ
+                </div>
+              </td>
+              <td>
+                <input type="date" formControlName="expenseDate">
+              </td>
+              <td>
+                <input type="number" formControlName="amount" step="0.01" min="0.01">
+                <div *ngIf="itemGroup.get('amount')?.invalid && itemGroup.get('amount')?.touched" class="error-message">
+                  จำนวนเงินต้องมากกว่า 0
+                </div>
+              </td>
+              <td>
+                <input type="text" formControlName="glAccount" placeholder="รหัสบัญชี">
+              </td>
+              <td>
+                <input type="text" formControlName="costCenter" placeholder="ศูนย์ต้นทุน">
+              </td>
+              <td>
+                <button type="button" class="btn-remove" (click)="removeItemRow(i)"
+                  *ngIf="itemsArray.length > 1">ลบ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="addNewItemRow()">+ เพิ่มรายการ</button>
+        <button type="submit" class="btn-primary" [disabled]="itemsForm.invalid || submitting">
+          <span *ngIf="submitting">กำลังบันทึก...</span>
+          <span *ngIf="!submitting">บันทึกรายการ</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="page-actions">
+    <button type="button" class="btn-back" (click)="goBack()">กลับไปหน้ารายการใบเบิก</button>
+    
+    <!-- Add this button for PDF generation -->
+    <!-- <button type="button" class="btn-pdf" (click)="generatePDF()">
+      <span>พิมพ์ PDF</span>
+    </button> -->
+    
+    <!-- Submit for approval button (existing) -->
+    <button type="button" class="btn-submit-approval"
+      *ngIf="voucherInfo?.voucher?.status === 'DRAFT' && items.length > 0" (click)="submitForApproval()">
+      ส่งเพื่อขออนุมัติ
+    </button>
+  </div>
+</div>

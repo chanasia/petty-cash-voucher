@@ -1,0 +1,11 @@
+FROM mcr.microsoft.com/azure-sql-edge:latest
+
+# Copy backup file
+COPY sql_backup.tar /docker-entrypoint-initdb.d/
+COPY init.sh /docker-entrypoint-initdb.d/
+
+USER root
+RUN chmod +x /docker-entrypoint-initdb.d/init.sh
+
+# Set the entrypoint script
+ENTRYPOINT ["/docker-entrypoint-initdb.d/init.sh"]

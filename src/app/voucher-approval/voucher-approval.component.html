@@ -1,0 +1,147 @@
+<div class="approval-container">
+  <h2>อนุมัติใบเบิกเงินสดย่อย</h2>
+  
+  <!-- Voucher Information -->
+  <div class="voucher-info" *ngIf="voucherInfo">
+    <div class="info-card">
+      <h3>ข้อมูลใบเบิก</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <label>เลขที่ใบเบิก:</label>
+          <span>{{ voucherInfo?.voucher?.voucherNo || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>บริษัท:</label>
+          <span>{{ voucherInfo?.company?.companyName || 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>วันที่ขอเบิก:</label>
+          <span>{{ voucherInfo?.voucher?.requestDate ? (voucherInfo?.voucher?.requestDate | date:'dd/MM/yyyy') : 'N/A' }}</span>
+        </div>
+        <div class="info-item">
+          <label>ผู้ขอเบิก:</label>
+          <span>{{ voucherInfo?.requestedBy?.firstName }} {{ voucherInfo?.requestedBy?.lastName }}</span>
+        </div>
+        <div class="info-item">
+          <label>สถานะ:</label>
+          <span [ngClass]="voucherInfo?.voucher?.status ? 'status-' + voucherInfo.voucher.status.toLowerCase() : ''">
+            {{ voucherInfo?.voucher?.status || 'N/A' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <label>หมายเหตุ:</label>
+          <span>{{ voucherInfo?.voucher?.remarks || '-' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Items List -->
+  <div class="items-section" *ngIf="items.length > 0">
+    <h3>รายการเบิก</h3>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>รายการ</th>
+          <th>วันที่</th>
+          <th>จำนวนเงิน</th>
+          <th>รหัสบัญชี</th>
+          <th>ศูนย์ต้นทุน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>{{ item.description }}</td>
+          <td>{{ item.expenseDate | date:'dd/MM/yyyy' }}</td>
+          <td class="amount">{{ item.amount | number:'1.2-2' }}</td>
+          <td>{{ item.glAccount || '-' }}</td>
+          <td>{{ item.costCenter || '-' }}</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2" class="total-label">รวมทั้งสิ้น</td>
+          <td class="total-amount">{{ calculateTotal() | number:'1.2-2' }}</td>
+          <td colspan="2"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Previous Approvals -->
+  <div class="approvals-section" *ngIf="approvals.length > 0">
+    <h3>ประวัติการอนุมัติ</h3>
+    <table class="approvals-table">
+      <thead>
+        <tr>
+          <th>ผู้อนุมัติ</th>
+          <th>วันที่อนุมัติ</th>
+          <th>สถานะ</th>
+          <th>ความคิดเห็น</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let approvalDto of approvals">
+          <td>{{ approvalDto.approver.firstName }} {{ approvalDto.approver.lastName }}</td>
+          <td>{{ approvalDto.approval.approvalDate | date:'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <span [ngClass]="getStatusClass(approvalDto.approval.approvalStatus)" class="status-badge">
+              {{ approvalDto.approval.approvalStatus }}
+            </span>
+          </td>
+          <td>{{ approvalDto.approval.comments || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Approval Form -->
+  <div class="approval-form-section" *ngIf="voucherInfo?.voucher?.status !== 'APPROVED' && voucherInfo?.voucher?.status !== 'REJECTED'">
+    <h3>การอนุมัติ</h3>
+    <form [formGroup]="approvalForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="approverId">ผู้อนุมัติ*</label>
+        <select id="approverId" formControlName="approverId">
+          <option *ngFor="let employee of employees" [value]="employee.employeeId">
+            {{ employee.firstName }} {{ employee.lastName }} - {{ employee.position }}
+          </option>
+        </select>
+        <div *ngIf="approvalForm.get('approverId')?.invalid && approvalForm.get('approverId')?.touched" class="error-message">
+          กรุณาเลือกผู้อนุมัติ
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="approvalStatus">การตัดสินใจ*</label>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" id="statusApproved" formControlName="approvalStatus" value="APPROVED">
+            <label for="statusApproved">อนุมัติ</label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" id="statusRejected" formControlName="approvalStatus" value="REJECTED">
+            <label for="statusRejected">ไม่อนุมัติ</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="comments">ความคิดเห็น</label>
+        <textarea id="comments" formControlName="comments" rows="3"></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="goBack()">ยกเลิก</button>
+        <button type="submit" class="btn-submit" [disabled]="approvalForm.invalid || submitting">
+          <span *ngIf="submitting">กำลังบันทึก...</span>
+          <span *ngIf="!submitting">บันทึกการอนุมัติ</span>
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="message-section" *ngIf="voucherInfo?.voucher?.status === 'APPROVED' || voucherInfo?.voucher?.status === 'REJECTED'">
+    <div class="message" [ngClass]="voucherInfo?.voucher?.status === 'APPROVED' ? 'message-approved' : 'message-rejected'">
+      <p *ngIf="voucherInfo?.voucher?.status === 'APPROVED'">ใบเบิกนี้ได้รับการอนุมัติแล้ว</p>
+      <p *ngIf="voucherInfo?.voucher?.status === 'REJECTED'">ใบเบิกนี้ถูกปฏิเสธการอนุมัติ</p>
+    </div>
+  </div>
+</div>

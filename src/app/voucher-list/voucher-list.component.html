@@ -1,0 +1,90 @@
+<!-- src/app/voucher-list/voucher-list.component.html -->
+<div class="voucher-list-container">
+  <h2>รายการใบเบิกเงินสดย่อย</h2>
+
+  <div class="filters-section">
+    <div class="search-box">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="ค้นหาเลขที่ใบเบิก, ชื่อบริษัท, ผู้ขอเบิก..."
+        (keyup.enter)="onSearch()">
+      <button (click)="onSearch()" class="btn-search">ค้นหา</button>
+    </div>
+
+    <div class="status-filter">
+      <label for="statusFilter">สถานะ:</label>
+      <select id="statusFilter" [(ngModel)]="statusFilter" (change)="onStatusChange()">
+        <option value="ALL">ทั้งหมด</option>
+        <option value="DRAFT">แบบร่าง</option>
+        <option value="PENDING">รออนุมัติ</option>
+        <option value="APPROVED">อนุมัติแล้ว</option>
+        <option value="REJECTED">ไม่อนุมัติ</option>
+        <option value="PAID">จ่ายเงินแล้ว</option>
+      </select>
+    </div>
+
+    <div class="action-buttons">
+      <a routerLink="/voucher/new" class="btn-new-voucher">+ สร้างใบเบิกใหม่</a>
+    </div>
+  </div>
+
+  <div class="loading-indicator" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>กำลังโหลดข้อมูล...</p>
+  </div>
+
+  <div class="vouchers-table-container" *ngIf="!loading">
+    <table class="vouchers-table" *ngIf="filteredVouchers.length > 0">
+      <thead>
+        <tr>
+          <th>เลขที่ใบเบิก</th>
+          <th>บริษัท</th>
+          <th>วันที่ขอเบิก</th>
+          <th>ผู้ขอเบิก</th>
+          <th>จำนวนเงิน</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredVouchers">
+          <!-- Access through the nested structure -->
+          <td>{{ item.voucher.voucherNo }}</td>
+          <td>{{ item.company?.companyName || 'N/A' }}</td>
+          <td>{{ item.voucher.requestDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ item.requestedBy?.firstName }} {{ item.requestedBy?.lastName }}</td>
+          <td class="amount">{{ item.voucher.totalAmount | number:'1.2-2' }}</td>
+          <td>
+            <span [ngClass]="getStatusClass(item.voucher.status)" class="status-badge">
+              {{ item.voucher.status }}
+            </span>
+          </td>
+          <td class="actions">
+          <td class="actions">
+            <a [routerLink]="['/voucher', item.voucher.voucherId, 'items']" class="btn-items">รายการย่อย</a>
+            <a [routerLink]="['/voucher', item.voucher.voucherId, 'approval']" class="btn-approve"
+              *ngIf="item.voucher.status === 'PENDING'">
+              อนุมัติ
+            </a>
+            <a [routerLink]="['/voucher', item.voucher.voucherId, 'payment']" class="btn-payment"
+              *ngIf="item.voucher.status === 'APPROVED'">
+              จ่ายเงิน
+            </a>
+
+            <button class="btn-pdf" (click)="generatePDF(item)"
+              *ngIf="item.voucher.status === 'PAID' || item.voucher.status === 'APPROVED'">
+              <i class="fa fa-file-pdf-o"></i> PDF
+            </button>
+            <!-- <a [routerLink]="['/voucher', item.voucher.voucherId, 'edit']" class="btn-edit"
+              *ngIf="item.voucher.status === 'DRAFT'">
+              แก้ไข
+            </a> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-data" *ngIf="filteredVouchers.length === 0">
+      <p>ไม่พบข้อมูลใบเบิกเงินสดย่อย</p>
+      <a routerLink="/voucher/new" class="btn-new-voucher">สร้างใบเบิกใหม่</a>
+    </div>
+  </div>
+</div>

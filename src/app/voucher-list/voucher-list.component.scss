@@ -1,0 +1,345 @@
+.voucher-list-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  
+  h2 {
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f1f1;
+  }
+}
+
+.filters-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+  
+  .search-box {
+    display: flex;
+    
+    input {
+      width: 300px;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+      font-size: 14px;
+      
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+      }
+    }
+    
+    .btn-search {
+      padding: 10px 15px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
+  }
+  
+  .status-filter {
+    display: flex;
+    align-items: center;
+    
+    label {
+      margin-right: 10px;
+      font-weight: 500;
+    }
+    
+    select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+      }
+    }
+  }
+  
+  .action-buttons {
+    .btn-new-voucher {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #2ecc71;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      
+      &:hover {
+        background-color: #27ae60;
+      }
+    }
+  }
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  p {
+    margin-top: 15px;
+    color: #7f8c8d;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.vouchers-table-container {
+  overflow-x: auto;
+}
+
+.vouchers-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .amount {
+    text-align: right;
+    font-weight: 500;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    
+    &.status-draft {
+      background-color: #f1c40f;
+      color: #6d5e0f;
+    }
+    
+    &.status-pending {
+      background-color: #3498db;
+      color: white;
+    }
+    
+    &.status-approved {
+      background-color: #2ecc71;
+      color: white;
+    }
+    
+    &.status-rejected {
+      background-color: #e74c3c;
+      color: white;
+    }
+  }
+  
+  .actions {
+    white-space: nowrap;
+    
+    a {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      
+      &.btn-items {
+        background-color: #3498db;
+        color: white;
+        
+        &:hover {
+          background-color: #2980b9;
+        }
+      }
+      
+      &.btn-edit {
+        background-color: #f39c12;
+        color: white;
+        
+        &:hover {
+          background-color: #d35400;
+        }
+      }
+    }
+  }
+}
+
+.no-data {
+  text-align: center;
+  padding: 50px 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+  }
+  
+  .btn-new-voucher {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    
+    &:hover {
+      background-color: #27ae60;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-section {
+    flex-direction: column;
+    align-items: stretch;
+    
+    .search-box {
+      width: 100%;
+      
+      input {
+        flex: 1;
+      }
+    }
+    
+    .status-filter, .action-buttons {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+.btn-approve {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #2ecc71;
+  color: white;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-approve:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-approve:active {
+  transform: translateY(0);
+}
+
+.btn-payment {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #9b59b6;
+  color: white;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-payment:hover {
+  background-color: #8e44ad;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.status-draft {
+    background-color: #f1c40f;
+    color: #6d5e0f;
+  }
+  
+  &.status-pending {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  &.status-approved {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  &.status-rejected {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  &.status-paid {
+    background-color: #9b59b6;
+    color: white;
+  }
+}
+
+.btn-pdf {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  
+  &:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}

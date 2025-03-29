@@ -1,0 +1,136 @@
+// petty-cash-voucher-form.component.scss
+
+.voucher-form-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  
+  h2 {
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f1f1;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #34495e;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+      
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      }
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+    
+    .form-group {
+      flex: 1;
+    }
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    
+    input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+    
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      
+      &:hover {
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &.btn-secondary {
+        background-color: #95a5a6;
+        color: white;
+        
+        &:hover {
+          background-color: #7f8c8d;
+        }
+      }
+      
+      &.btn-primary {
+        background-color: #3498db;
+        color: white;
+        
+        &:hover {
+          background-color: #2980b9;
+        }
+        
+        &:disabled {
+          background-color: #bdc3c7;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .voucher-form-container {
+    padding: 15px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}

@@ -1,0 +1,249 @@
+// src/app/petty-cash-items/petty-cash-items.component.scss
+.items-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  
+  h2 {
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f1f1;
+  }
+  
+  h3 {
+    margin: 20px 0;
+    color: #34495e;
+    font-weight: 500;
+  }
+}
+
+.voucher-info {
+  margin-bottom: 30px;
+  
+  .info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      
+      label {
+        font-size: 14px;
+        color: #7f8c8d;
+        margin-bottom: 5px;
+      }
+      
+      span {
+        font-size: 16px;
+        font-weight: 500;
+        
+        &.status-draft { color: #f39c12; }
+        &.status-pending { color: #3498db; }
+        &.status-approved { color: #2ecc71; }
+        &.status-rejected { color: #e74c3c; }
+      }
+    }
+  }
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .amount, .total-amount {
+    text-align: right;
+    font-weight: 500;
+  }
+  
+  .total-row {
+    background-color: #f8f9fa;
+  }
+  
+  .total-label {
+    text-align: right;
+    font-weight: 600;
+  }
+  
+  .total-amount {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    
+    &:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .actions {
+    text-align: center;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    
+    &.btn-secondary {
+      background-color: #ecf0f1;
+      color: #2c3e50;
+      
+      &:hover {
+        background-color: #dfe6e9;
+      }
+    }
+    
+    &.btn-primary {
+      background-color: #3498db;
+      color: white;
+      
+      &:hover {
+        background-color: #2980b9;
+      }
+      
+      &:disabled {
+        background-color: #bdc3c7;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.btn-delete, .btn-remove {
+  padding: 5px 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #c0392b;
+  }
+}
+
+.page-actions {
+  margin-top: 30px;
+  text-align: center;
+  
+  .btn-back {
+    padding: 10px 20px;
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:hover {
+      background-color: #6c7a7d;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .items-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+.btn-submit-approval {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+  
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.page-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.message-section {
+  margin-top: 20px;
+  
+  .message {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    color: #2c3e50;
+    font-weight: 500;
+  }
+}
+
+.btn-pdf {
+  padding: 10px 20px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+  
+  &:hover {
+    background-color: #c0392b;
+  }
+}

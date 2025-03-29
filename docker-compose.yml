@@ -1,0 +1,72 @@
+name: petty-cash-voucher
+
+services:
+  frontend:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+    ports:
+      - "5069:5069"
+    depends_on:
+      - dbmssql
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=dbmssql;Database=master;User=sa;Password=P@ss1234;TrustServerCertificate=True;
+    networks:
+      - app_network
+
+  dbmssql:
+    container_name: db_postgres
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=P@ss1234
+      - MSSQL_COLLATION=Thai_CI_AS
+    volumes:
+    - sql_data:/var/opt/mssql
+    - ./sql:/sql_backup
+    - ./import-volume.sh:/init.sh
+    entrypoint: ["/bin/bash", "/import-volume.sh"]
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  sql_data:
+
+
+# ======================== Development
+# name: petty-cash-voucher
+
+# services:
+#   mssql:
+#     container_name: db_postgres
+#     image: mcr.microsoft.com/azure-sql-edge:latest
+#     ports:
+#       - 1433:1433
+#     environment:
+#       - ACCEPT_EULA=Y
+#       - MSSQL_SA_PASSWORD=P@ss1234
+#       - MSSQL_COLLATION=Thai_CI_AS
+#     volumes:
+#       - sql_data:/var/opt/mssql
+#       - ./sql/sql_backup.tar:/docker-entrypoint-initdb.d/sql_backup.tar
+#       # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+# volumes:
+#   sql_data:

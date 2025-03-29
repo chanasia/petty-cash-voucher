@@ -1,0 +1,66 @@
+{
+  "employees": [
+    {
+      "FirstName": "ธนกร",
+      "LastName": "สุขเกษม",
+      "Position": "ผู้จัดการฝ่ายบัญชี",
+      "Department": "บัญชี",
+      "Email": "thanakorn.s@example.com",
+      "Phone": "081-234-5678",
+      "IsActive": true,
+      "CreatedBy": "admin",
+      "UpdatedBy": "admin"
+    },
+    {
+      "FirstName": "สมหญิง",
+      "LastName": "รักษาดี",
+      "Position": "เจ้าหน้าที่การเงิน",
+      "Department": "การเงิน",
+      "Email": "somying.r@example.com",
+      "Phone": "089-876-5432",
+      "IsActive": true,
+      "CreatedBy": "admin",
+      "UpdatedBy": "admin"
+    },
+    {
+      "FirstName": "วิชัย",
+      "LastName": "นามสกุลใจดี",
+      "Position": "พนักงานขาย",
+      "Department": "การตลาด",
+      "Email": "wichai.n@example.com",
+      "Phone": "062-345-6789",
+      "IsActive": true,
+      "CreatedBy": "admin",
+      "UpdatedBy": "admin"
+    },
+    {
+      "FirstName": "กมลวรรณ",
+      "LastName": "ทรัพย์เจริญ",
+      "Position": "เลขานุการ",
+      "Department": "บริหาร",
+      "Email": "kamonwan.s@example.com",
+      "Phone": "099-765-4321",
+      "IsActive": true,
+      "CreatedBy": "admin",
+      "UpdatedBy": "admin"
+    }
+  ],
+  "company": [
+    {
+      "companyCode": "KPI01",
+      "companyName": "บริษัท คิงส์แพ็ค อินดัสเตรียล จำกัด"
+    },
+    {
+      "companyCode": "SCG02",
+      "companyName": "บริษัท ปูนซิเมนต์ไทย จำกัด (มหาชน)"
+    },
+    {
+      "companyCode": "CPF03",
+      "companyName": "บริษัท เจริญโภคภัณฑ์อาหาร จำกัด (มหาชน)"
+    },
+    {
+      "companyCode": "PTT04",
+      "companyName": "บริษัท ปตท. จำกัด (มหาชน)"
+    }
+  ]
+}

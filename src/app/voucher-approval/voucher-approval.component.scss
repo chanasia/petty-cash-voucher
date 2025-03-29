@@ -1,0 +1,248 @@
+// src/app/voucher-approval/voucher-approval.component.scss
+.approval-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 0 20px;
+  
+  h2 {
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f1f1;
+  }
+  
+  h3 {
+    margin: 20px 0;
+    color: #34495e;
+    font-weight: 500;
+  }
+}
+
+.voucher-info, .items-section, .approvals-section, .approval-form-section, .message-section {
+  margin-bottom: 30px;
+}
+
+.info-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    
+    label {
+      font-size: 14px;
+      color: #7f8c8d;
+      margin-bottom: 5px;
+    }
+    
+    span {
+      font-size: 16px;
+      font-weight: 500;
+      
+      &.status-draft { color: #f39c12; }
+      &.status-pending { color: #3498db; }
+      &.status-approved { color: #2ecc71; }
+      &.status-rejected { color: #e74c3c; }
+    }
+  }
+}
+
+.items-table, .approvals-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .amount, .total-amount {
+    text-align: right;
+    font-weight: 500;
+  }
+  
+  .total-row {
+    background-color: #f8f9fa;
+  }
+  
+  .total-label {
+    text-align: right;
+    font-weight: 600;
+  }
+  
+  .total-amount {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  
+  &.status-approved {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  &.status-rejected {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  &.status-pending {
+    background-color: #3498db;
+    color: white;
+  }
+}
+
+.approval-form-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  .form-group {
+    margin-bottom: 20px;
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #34495e;
+    }
+    
+    select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      }
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .error-message {
+      color: #e74c3c;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      
+      .radio-item {
+        display: flex;
+        align-items: center;
+        
+        input[type="radio"] {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      
+      &.btn-cancel {
+        background-color: #95a5a6;
+        color: white;
+        
+        &:hover {
+          background-color: #7f8c8d;
+        }
+      }
+      
+      &.btn-submit {
+        background-color: #3498db;
+        color: white;
+        
+        &:hover {
+          background-color: #2980b9;
+        }
+        
+        &:disabled {
+          background-color: #bdc3c7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+.message-section {
+  .message {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    
+    &.message-approved {
+      background-color: #e6f7ef;
+      color: #2ecc71;
+      border: 1px solid #d1f5e0;
+    }
+    
+    &.message-rejected {
+      background-color: #fae9e7;
+      color: #e74c3c;
+      border: 1px solid #f5d1cc;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .items-table, .approvals-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

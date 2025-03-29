@@ -1,0 +1,6 @@
+@PettyCashVoucherAPI_HostAddress = http://localhost:5069
+
+GET {{PettyCashVoucherAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

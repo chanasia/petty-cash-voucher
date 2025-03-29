@@ -1,0 +1,69 @@
+<div class="voucher-form-container">
+  <h2>สร้างใบเบิกเงินสดย่อย</h2>
+
+  <form [formGroup]="voucherForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="company_id">บริษัท*</label>
+        <select id="company_id" formControlName="company_id">
+          <option [ngValue]="null">-- เลือกบริษัท --</option>
+          <option *ngFor="let company of companies" [ngValue]="company.companyId">
+            {{ company.companyName }} ({{ company.companyCode }})
+          </option>
+        </select>
+        <div *ngIf="loading.companies">กำลังโหลดข้อมูล...</div>
+        <div *ngIf="voucherForm && voucherForm.get('company_id')?.invalid && voucherForm.get('company_id')?.touched"
+          class="error-message">
+          กรุณาเลือกบริษัท
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="voucher_no">เลขที่ใบเบิก*</label>
+        <input type="text" id="voucher_no" formControlName="voucher_no">
+        <div *ngIf="voucherForm.get('voucher_no')?.invalid && voucherForm.get('voucher_no')?.touched"
+          class="error-message">
+          กรุณาระบุเลขที่ใบเบิก
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="request_date">วันที่ขอเบิก*</label>
+        <input type="date" id="request_date" formControlName="request_date">
+      </div>
+
+      <div class="form-group">
+        <label for="requested_by">ผู้ขอเบิก*</label>
+        <select id="requested_by" formControlName="requested_by">
+          <option [ngValue]="null">-- เลือกพนักงาน --</option>
+          <option *ngFor="let employee of employees" [ngValue]="employee.employeeId">
+            {{ employee.firstName }} {{ employee.lastName }} - {{ employee.position }}
+          </option>
+        </select>
+        <div *ngIf="loading.employees">กำลังโหลดข้อมูล...</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="total_amount">จำนวนเงินรวม*</label>
+      <input type="number" id="total_amount" formControlName="total_amount">
+    </div>
+
+    <div class="form-group">
+      <label for="remarks">หมายเหตุ</label>
+      <textarea id="remarks" formControlName="remarks"></textarea>
+    </div>
+
+    <div class="form-group checkbox-group">
+      <input type="checkbox" id="is_active" formControlName="is_active">
+      <label for="is_active">ใช้งาน</label>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="voucherForm.reset()">ยกเลิก</button>
+      <button type="submit" class="btn-primary" [disabled]="voucherForm.invalid">บันทึก</button>
+    </div>
+  </form>
+</div>
