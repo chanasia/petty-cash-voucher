@@ -1,13 +1,13 @@
+## Start web-application
+```bash
+docker-compose up --build -d
+```
 ## Import volume
 ```bash
 docker volume create petty-cash-voucher_sql_data
 ```
 ```bash
 docker run --rm -v petty-cash-voucher_sql_data:/destination -v $(pwd)/sql:/backup alpine sh -c "cd /destination && tar -xzf /backup/sql_data_volume.tar.gz"
-```
-## Start web-application
-```bash
-docker-compose up --build -d
 ```
 ## Stop containers
 ```bash
